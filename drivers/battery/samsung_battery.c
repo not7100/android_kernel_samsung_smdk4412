@@ -624,14 +624,14 @@ void battery_event_control(struct battery_info *info)
 
 		if (info->event_state == EVENT_STATE_SET) {
 			pr_info("%s: start event timer\n", __func__);
-			info->last_poll = alarm_get_elapsed_realtime();
+			//info->last_poll = alarm_get_elapsed_realtime();
 
 			interval = ktime_set(info->pdata->event_time, 0);
-			next = ktime_add(info->last_poll, interval);
+			//next = ktime_add(info->last_poll, interval);
 			slack = ktime_set(20, 0);
 
-			alarm_start_range(&info->event_alarm, next,
-						ktime_add(next, slack));
+			//alarm_start_range(&info->event_alarm, next,
+			//			ktime_add(next, slack));
 
 			info->event_state = EVENT_STATE_IN_TIMER;
 		} else {
@@ -678,7 +678,7 @@ static void battery_monitor_interval(struct battery_info *info)
 
 	local_irq_save(flags);
 
-	info->last_poll = alarm_get_elapsed_realtime();
+	//info->last_poll = alarm_get_elapsed_realtime();
 
 	switch (info->monitor_mode) {
 	case MONITOR_CHNG:
@@ -721,12 +721,12 @@ static void battery_monitor_interval(struct battery_info *info)
 		info->monitor_mode, info->monitor_interval);
 
 	interval = ktime_set(info->monitor_interval, 0);
-	next = ktime_add(info->last_poll, interval);
+	//next = ktime_add(info->last_poll, interval);
 	slack = ktime_set(20, 0);
 
-	alarm_start_range(&info->monitor_alarm, next, ktime_add(next, slack));
+	//alarm_start_range(&info->monitor_alarm, next, ktime_add(next, slack));
 
-	local_irq_restore(flags);
+	//local_irq_restore(flags);
 }
 
 static bool battery_recharge_cond(struct battery_info *info)
@@ -2337,7 +2337,7 @@ static __devinit int samsung_battery_probe(struct platform_device *pdev)
 gpio_bat_det_finish:
 
 	/* Using android alarm for gauging instead of workqueue */
-	info->last_poll = alarm_get_elapsed_realtime();
+	//info->last_poll = alarm_get_elapsed_realtime();
 	alarm_init(&info->monitor_alarm,
 			ANDROID_ALARM_ELAPSED_REALTIME_WAKEUP,
 			battery_monitor_alarm);
