@@ -635,11 +635,6 @@ static int mmc_read_ext_csd(struct mmc_card *card, u8 *ext_csd)
 	}
 
 	if (card->ext_csd.rev >= 5) {
-		/* If moviNAND, run smart report */
-		if (card->cid.manfid == 0x15) {
-			card->host->card = card;
-			movi_ver_check = mmc_start_movi_smart(card);
-		}
 #ifndef CONFIG_WIMAX_CMC
 		/* enable discard feature if emmc is 4.41+ moviNand */
 		if ((ext_csd[EXT_CSD_VENDOR_SPECIFIC_FIELD + 0] & 0x1) &&
